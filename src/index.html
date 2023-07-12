@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Editor</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.4.0/fabric.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+
+</head>
+<body>
+  <input type="file" id="imageLoader" />
+  <canvas id="canvas" width="800" height="600" style="border: 2px solid black;"></canvas>
+  <div class="controls">
+    <button class="button" id="enableEditing">Enable Editing</button>
+    <button class="button" id="disableEditing">Disable Editing</button>
+  </div>
+  <div>
+    <input type="color" id="colorPicker" />
+  </div>
+
+  <script>
+    // Initialize Fabric.js canvas
+    const canvas = new fabric.Canvas('canvas');
+
+    // Load image on canvas
+    document.getElementById('imageLoader').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (f) {
+        const data = f.target.result;
+
+        fabric.Image.fromURL(data, function (img) {
+          img.scaleToWidth(canvas.getWidth());
+          img.scaleToHeight(canvas.getHeight());
+          canvas.add(img);
+        });
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    // Enable editing
+    document.getElementById('enableEditing').addEventListener('click', function () {
+      enableEditing();
+    });
+
+    // Disable editing
+    document.getElementById('disableEditing').addEventListener('click', function () {
+      disableEditing();
+    });
+
+    // Handle color change
+    document.getElementById('colorPicker').addEventListener('change', function (e) {
+      const color = e.target.value;
+      setDrawingColor(color);
+    });
+
+    // Function to enable editing on canvas
+    function enableEditing() {
+      canvas.isDrawingMode = true; // Enable free drawing
+      canvas.forEachObject(function (obj) {
+        obj.set('selectable', true);
+        obj.set('evented', true);
+      });
+      canvas.selection = true;
+      canvas.renderAll();
+    }
+
+    // Function to disable editing on canvas
+    function disableEditing() {
+      canvas.isDrawingMode = false; // Disable free drawing
+      canvas.forEachObject(function (obj) {
+        obj.set('selectable', false);
+        obj.set('evented', false);
+      });
+      canvas.selection = false;
+      canvas.renderAll();
+    }
+
+    // Function to set drawing color
+    function setDrawingColor(color) {
+      canvas.freeDrawingBrush.color = color;
+    }
+  </script>
+</body>
+</html>
