@@ -1,15 +1,16 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
-import './styles.css';
+import './styles.css'
 import SliderComponent from './Sidebar';
-import SliderComponent2 from './Sidebar2';
 
 const PmageEditor = () => {
+
   const [canvas, setCanvas] = useState(null);
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [canvasWidth, setCanvasWidth] = useState(800); // Initial canvas width
-  const [canvasHeight, setCanvasHeight] = useState(800); // Initial canvas height
+  const [canvasWidth, setCanvasWidth] = useState(500); 
+  const [canvasHeight, setCanvasHeight] = useState(500);
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -26,7 +27,6 @@ const PmageEditor = () => {
   }, [canvas, canvasWidth, canvasHeight]);
 
   const handleCanvasSizeChange = () => {
-    // Update canvas size based on user input
     const newWidth = parseInt(document.getElementById('canvasWidthInput').value, 10);
     const newHeight = parseInt(document.getElementById('canvasHeightInput').value, 10);
     setCanvasWidth(newWidth);
@@ -41,10 +41,9 @@ const PmageEditor = () => {
       const canvasWidth = canvas.getWidth();
       const canvasHeight = canvas.getHeight();
 
-      const maxWidth = canvasWidth * 0.8; // Limit the image width to 80% of the canvas width
-      const maxHeight = canvasHeight * 0.8; // Limit the image height to 80% of the canvas height
-
-      // Calculate the scaled dimensions while preserving the aspect ratio
+      const maxWidth = canvasWidth * 0.8; 
+      const maxHeight = canvasHeight * 0.8; 
+      
       let newWidth = img.width;
       let newHeight = img.height;
 
@@ -92,7 +91,7 @@ const PmageEditor = () => {
   };
 
   const enableEditing = () => {
-    canvas.isDrawingMode = true; // Enable free drawing
+    canvas.isDrawingMode = true; 
     canvas.forEachObject((obj) => {
       obj.set('selectable', true);
       obj.set('evented', true);
@@ -102,7 +101,7 @@ const PmageEditor = () => {
   };
 
   const disableEditing = () => {
-    canvas.isDrawingMode = false; // Disable free drawing
+    canvas.isDrawingMode = false;
     canvas.forEachObject((obj) => {
       obj.set('selectable', false);
       obj.set('evented', false);
@@ -129,9 +128,7 @@ const PmageEditor = () => {
     }
   };
 
-  const handleSliderImageClick = (imageSrc) => {
-    setSelectedImage(imageSrc);
-  };
+ 
 
   const handleCanvasClick = (event) => {
     if (selectedImage) {
@@ -192,9 +189,8 @@ const PmageEditor = () => {
   const handleBringToFront = () => {
     const selectedObjects = canvas.getActiveObjects();
     if (selectedObjects && selectedObjects.length > 0) {
-      canvas.discardActiveObject(); // Deselect the active object(s)
+      canvas.discardActiveObject(); 
   
-      // Bring selected objects to the front layer
       selectedObjects.forEach((object) => {
         canvas.bringToFront(object);
       });
@@ -206,9 +202,8 @@ const PmageEditor = () => {
   const handleBringToBack = () => {
     const selectedObjects = canvas.getActiveObjects();
     if (selectedObjects && selectedObjects.length > 0) {
-      canvas.discardActiveObject(); // Deselect the active object(s)
+      canvas.discardActiveObject(); 
   
-      // Bring selected objects to the back layer
       selectedObjects.forEach((object) => {
         canvas.sendToBack(object);
       });
@@ -219,95 +214,101 @@ const PmageEditor = () => {
   
 
   return (
-    <div className='return'>
-      <h2>PNG Images</h2>
-      <SliderComponent canvas={canvas} handleRemoveBackground={handleRemoveBackground}/>
-      <h2>SVG Images</h2>
-      <SliderComponent2 canvas={canvas} />
+    <>
+      <div className="row">
+        <div className="side">
+          <h3>Upload Image</h3>
+          <input type="file" id="imageLoader" onChange={handleImageLoad} />
+          <h3>PNG Images</h3>
+          <SliderComponent canvas={canvas} handleRemoveBackground={handleRemoveBackground} />
+          <h3>SVG Images</h3>
 
-      <h2>Canvas Dimensions</h2>
-      <div className="canvas-dimensions">
-        <label htmlFor="canvasWidthInput">Width:</label>
-        <input
-          type="number"
-          id="canvasWidthInput"
-          className="dimension-input"
-          value={canvasWidth}
-          onChange={handleCanvasSizeChange}
-        />
-         <span className="dimension-unit">px</span>
-      </div>
-      <div className="canvas-dimensions">
-        <label htmlFor="canvasHeightInput">Height:</label>
-        <input
-          type="number"
-          id="canvasHeightInput"
-          className="dimension-input"
-          value={canvasHeight}
-          onChange={handleCanvasSizeChange}
-        />
-         <span className="dimension-unit">px</span>
-      </div>
 
-      <input type="file" id="imageLoader" onChange={handleImageLoad} />
-
-      <div className='canvas-container'>
-      
-      <canvas
-        
-        ref={canvasRef}
-        width="800"
-        height="600"
-        style={{ border: '2px solid black' }}
-        onDrop={handleDrop}
-        onDragOver={(event) => event.preventDefault()}
-        onClick={handleCanvasClick}
-      ></canvas>
-      </div>
-      <div className="controls">
-      <label>
-          Brightness:
-          <input 
-            type="checkbox"
-            onChange={handleBrightnessChange}
-            value="0.5"
+          <h3>Controls</h3>
+          <label  >
+           <h3> Brightness</h3>
+            <input
+              type="checkbox"
+              onChange={handleBrightnessChange}
+              value="0.5"
+            />
+          </label>
+          <input
+            type="range"
+            id="brightness-range"
+            min="0"
+            max="2"
+            step="0.1"
+            defaultValue="1"
+            onChange={handleBrightnessRangeChange}
           />
-        </label>
-        <input
-        type="range"
-        id="brightness-range"
-        min="0"
-        max="2"
-        step="0.1"
-        defaultValue="1"
-        onChange={handleBrightnessRangeChange}
-      />
-        <button className="button" onClick={enableEditing}>
-          Enable Editing
-        </button>
-        <button className="button" onClick={disableEditing}>
-          Disable Editing
-        </button>
-        <button className="button" onClick={handleRemoveBackground}>
-          Remove Background Image
-        </button>
-        <button className="button" onClick={handleBringToFront}>
-          Bring front
-        </button>
-        <button className="button" onClick={handleBringToBack}>
-  Send Back
-</button>
+          <button className="button" onClick={enableEditing}>
+            Enable Editing
+          </button>
+          <button className="button" onClick={disableEditing}>
+            Disable Editing
+          </button>
+          <button className="button" onClick={handleRemoveBackground}>
+            Remove Background Image
+          </button>
+          <button className="button" onClick={handleBringToFront}>
+            Bring front
+          </button>
+          <button className="button" onClick={handleBringToBack}>
+            Send Back
+          </button>
+
+          <h3>Change Color</h3>
+          <input type="color" id="colorPicker" onChange={handleColorChange} />
+          <select onChange={handleBrushSizeChange}>
+            <option value="20">Small</option>
+            <option value="30">Medium</option>
+            <option value="40">Large</option>
+          </select>
+        </div>
+
+
+        <div className="canvas-container">
+          <h3>Canvas Dimensions</h3>
+          <div className="canvas-dimensions">
+            <label htmlFor="canvasWidthInput">Width:</label>
+            <input
+              type="number"
+              id="canvasWidthInput"
+              className="dimension-input"
+              value={canvasWidth}
+              onChange={handleCanvasSizeChange}
+            />
+            <span className="dimension-unit">px</span>
+          </div>
+          <div className="canvas-dimensions">
+            <label htmlFor="canvasHeightInput">Height:</label>
+            <input
+              type="number"
+              id="canvasHeightInput"
+              className="dimension-input"
+              value={canvasHeight}
+              onChange={handleCanvasSizeChange}
+            />
+            <span className="dimension-unit">px</span>
+          </div>
+
+
+          <canvas
+            id="canvas"
+            ref={canvasRef}
+            
+            style={{ border: '2px solid black' }}
+            onDrop={handleDrop}
+            onDragOver={(event) => event.preventDefault()}
+            onClick={handleCanvasClick}
+          ></canvas>
+          
+        </div>
+
       </div>
-      <div>
-        <input type="color" id="colorPicker" onChange={handleColorChange} />
-        <select onChange={handleBrushSizeChange}>
-          <option value="20">Small</option>
-          <option value="30">Medium</option>
-          <option value="40">Large</option>
-        </select>
-      </div>
-    </div>
-    );
+    </>
+  );
 };
 
 export default PmageEditor;

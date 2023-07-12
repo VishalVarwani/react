@@ -2,9 +2,8 @@ import React, { useRef } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './Sidebar.css';
 import { fabric } from 'fabric';
-
+import './styles.css'
 const images = [
   'https://pngimg.com/uploads/lion/lion_PNG3809.png',
   'https://1.bp.blogspot.com/-4twOjh40ZCs/WMQUC8z8NiI/AAAAAAABgz4/UIxtU9XGzGMFEe-p7l-vYiw4EyaRDNSkQCEw/s1600/lion_PNG3806.png',
@@ -60,6 +59,14 @@ const SliderComponent = ({ canvas }) => {
     });
   };
 
+  const customPrevArrow = <div className="custom-prev-arrow">Previous</div>;
+  const customNextArrow = <div className="custom-next-arrow">Next</div>;
+
+  const settings = {
+    prevArrow: customPrevArrow,
+    nextArrow: customNextArrow,
+  };
+
 
   return (
     <>
@@ -70,7 +77,7 @@ const SliderComponent = ({ canvas }) => {
         <div key={index} className="slider-item">
           <img
             src={image}
-            height={200}
+            height={100}
             alt={`Image ${index + 1}`}
             draggable="true"
             onClick={() => handleImageClick(image)}

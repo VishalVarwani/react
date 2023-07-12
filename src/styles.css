@@ -1,54 +1,62 @@
-.canvas-container{
-  max-width: 800px;
-  width: 100;
-    height: 800px;
-    position: relative;
-    user-select: none;
-    margin-left: 560px;
+* {
+  padding: 0%;
+  margin: 0%;
 }
 
-.return{
-  background-image: url("https://images.unsplash.com/photo-1613828330596-982c62f72e9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80");
+.row {
+  display: flex;
+  background-image: url("http://www.pixelstalk.net/wp-content/uploads/2016/09/Free-Download-All-White-Background.jpg");
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-size: cover;
-  justify-content: center;
-  align-items: center;
-  
-
+  background-attachment: fixed;
 }
 
-/* #canvas {
-  border: 2px solid black;
-  margin-right: 20px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-} */
-
-.controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-left: 100px;
-  top: 200px;
-  left: 200px;
+.side {
+  flex: 40%;
+  margin-left: 20px;
 }
 
-.filter-controls {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-bottom: 20px;
+.side h3 {
+  margin: 10px 5px;
 }
 
+.slider-container {
+  width: 300px;
+  margin-left: 30px;
+  padding: 10px 0px;
+}
+
+.canvas-dimensions {
+  margin: 10px 5px;
+}
+
+.dimension-input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+  width: 60px;
+}
+
+.dimension-unit {
+  margin-left: 5px;
+  color: rgb(0, 0, 0);
+}
+.slick-prev,
+.slick-next {
+  color: red; /* Set the desired color for the previous and next arrows */
+}
+.custom-prev-arrow,
+.custom-next-arrow {
+  color: red; /* Set the desired color for the previous and next arrows */
+}
 .button {
-  justify-self: start;
-  margin: 10px 0;
+  margin: 2px 10px;
   padding: 10px 20px;
   font-size: 16px;
   border: none;
-  background-color: #007bff;
-  color: #fff;
+  background-color:  #00c853;
+  color: black;
   cursor: pointer;
   border-radius: 4px;
 }
@@ -58,11 +66,9 @@
 }
 
 #colorPicker {
-  
-  margin-top: -450px;
-  margin-left: 900px;
+  margin-bottom: 10px;
+  margin-left: 5px;
   padding: 8px;
-  
   border: none;
   border-radius: 50%;
   background-color: transparent;
@@ -82,35 +88,37 @@
   border: none;
   border-radius: 50%;
 }
+
+.canvas-container {
+  flex: 60%;
+  margin: 30px 30px;
+  padding-bottom: 100%;
+  position: relative;
+  overflow: hidden;
+  /* overflow: hidden; */
+}
+@media screen and (max-width: 748px) {
+  #canvas{
+    flex-direction: column;
+  }
+}
+
 #canvas {
-  display: flex;
-  background-color: #fff;
-  padding: 0;
-  margin: auto;
-  display: block;
-  width: 800px;
-  height: 600px;
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  margin: auto;
+  background-color: #fff;
+  max-width: 100%;
+  height: auto;
 }
 
-.dimension-input {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 14px;
-  width: 60px;
+@media screen and (max-width: 748px) {
+  .row{
+    flex-direction: column;
+  };
 }
 
-.dimension-unit {
-  margin-left: 5px;
-  font-size: 14px;
-  color: #777;
-}
-
-.canvas-dimensions {
-  margin-bottom: 10px;
+h3{
+  font-family: "Times New Roman", Times, serif;
+  font-style: normal;
+  color: black;
 }
